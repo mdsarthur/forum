@@ -1,11 +1,25 @@
-package br.com.arthur.projects.forum.modelo;
+package br.com.arthur.projects.forum.model;
 
-public class Usuario
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
+public class Curso
 {
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String nome;
-	private String email;
-	private String senha;
+	private String categoria;
+
+	public Curso() {}
+	
+	public Curso(String nome, String categoria)
+	{
+		this.nome = nome;
+		this.categoria = categoria;
+	}
 
 	@Override
 	public int hashCode()
@@ -25,7 +39,7 @@ public class Usuario
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Usuario other = (Usuario) obj;
+		Curso other = (Curso) obj;
 		if (id == null)
 		{
 			if (other.id != null)
@@ -55,24 +69,14 @@ public class Usuario
 		this.nome = nome;
 	}
 
-	public String getEmail()
+	public String getCategoria()
 	{
-		return email;
+		return categoria;
 	}
 
-	public void setEmail(String email)
+	public void setCategoria(String categoria)
 	{
-		this.email = email;
-	}
-
-	public String getSenha()
-	{
-		return senha;
-	}
-
-	public void setSenha(String senha)
-	{
-		this.senha = senha;
+		this.categoria = categoria;
 	}
 
 }
