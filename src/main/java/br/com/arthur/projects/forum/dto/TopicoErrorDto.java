@@ -1,11 +1,11 @@
 package br.com.arthur.projects.forum.dto;
 
-public class TopicoError
+public class TopicoErrorDto
 {
 	private String campo;
 	private String mensagem;
 
-	public TopicoError(String campo, String mensagem)
+	public TopicoErrorDto(String campo, String mensagem)
 	{
 		super();
 		this.campo = campo;

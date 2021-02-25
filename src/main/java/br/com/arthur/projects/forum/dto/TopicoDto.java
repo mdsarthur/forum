@@ -6,14 +6,14 @@ import java.util.List;
 
 import br.com.arthur.projects.forum.model.Topico;
 
-public class TopicoOutput
+public class TopicoDto
 {
 	private Long id;
 	private String titulo;
 	private String mensagem;
 	private LocalDateTime dataCriacao;
 	
-	public TopicoOutput(Topico topico)
+	public TopicoDto(Topico topico)
 	{
 		this.id = topico.getId();
 		this.titulo = topico.getTitulo();
@@ -38,17 +38,17 @@ public class TopicoOutput
 		return dataCriacao;
 	}
 	
-	public static TopicoOutput convertToOutput(Topico topico)
+	public static TopicoDto convertToDto(Topico topico)
 	{
-		return new TopicoOutput(topico);
+		return new TopicoDto(topico);
 	}
 	
-	public static List<TopicoOutput> convertToOutputList(List<Topico> topicos)
+	public static List<TopicoDto> convertToDtoList(List<Topico> topicos)
 	{
-		List<TopicoOutput> dto = new ArrayList<>();
+		List<TopicoDto> dto = new ArrayList<>();
 		for (Topico topico : topicos)
 		{
-			dto.add(TopicoOutput.convertToOutput(topico));
+			dto.add(TopicoDto.convertToDto(topico));
 		}
 		return dto;
 	}	
