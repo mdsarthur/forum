@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 import br.com.arthur.projects.forum.dto.NoHandlerDto;
-import br.com.arthur.projects.forum.dto.TopicoErrorDto;
+import br.com.arthur.projects.forum.dto.topico.TopicoErrorDto;
 
 @RestControllerAdvice
 public class ExceptionResolver

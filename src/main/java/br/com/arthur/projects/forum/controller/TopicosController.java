@@ -1,12 +1,18 @@
 package br.com.arthur.projects.forum.controller;
 
 import java.net.URI;
-import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,13 +21,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import br.com.arthur.projects.forum.dto.TopicoCreateDto;
-import br.com.arthur.projects.forum.dto.TopicoDetailedDto;
-import br.com.arthur.projects.forum.dto.TopicoDto;
-import br.com.arthur.projects.forum.dto.TopicoUpdateDto;
+import br.com.arthur.projects.forum.dto.topico.TopicoCreateDto;
+import br.com.arthur.projects.forum.dto.topico.TopicoDetailedDto;
+import br.com.arthur.projects.forum.dto.topico.TopicoDto;
+import br.com.arthur.projects.forum.dto.topico.TopicoUpdateDto;
 import br.com.arthur.projects.forum.model.Curso;
 import br.com.arthur.projects.forum.model.Topico;
 import br.com.arthur.projects.forum.repository.CursoRepository;
@@ -36,14 +43,21 @@ public class TopicosController
 	
 	@Autowired
 	private CursoRepository cursoRepository;
-		
+	
 	@GetMapping
-	public List<TopicoDto> listar(String nomeCurso)
+	@Cacheable(value ="listaDeTopicos")
+	public Page<TopicoDto> listar(
+			@RequestParam(required = false) String nomeCurso,
+			@PageableDefault(sort = "id", direction = Direction.DESC) Pageable paginacao)
 	{
 		if (nomeCurso == null)
-			return TopicoDto.convertToDtoList(topicoRepository.findAll());
+		{
+			return topicoRepository.findAllProjectedBy(paginacao);
+		}
 		else
-			return TopicoDto.convertToDtoList(topicoRepository.findByCursoNome(nomeCurso));
+		{			
+			return topicoRepository.findByCursoNome(nomeCurso, paginacao);
+		}
 	}
 	
 	@GetMapping("/{id}")
@@ -54,6 +68,7 @@ public class TopicosController
 	}
 	
 	@PostMapping
+	@CacheEvict(value="listaDeTopicos", allEntries = true)
 	public ResponseEntity<TopicoDto> cadastrar(@RequestBody @Valid TopicoCreateDto input, UriComponentsBuilder uriBuilder)
 	{
 		Curso curso = cursoRepository.findByNome(input.getNomeCurso());
@@ -65,6 +80,7 @@ public class TopicosController
 	}
 	
 	@PutMapping("/{id}")
+	@CacheEvict(value="listaDeTopicos", allEntries = true)
 	public ResponseEntity<TopicoDto> atualizar(@PathVariable Long id, @RequestBody @Valid TopicoUpdateDto input)
 	{
 		Optional<Topico> optional = topicoRepository.findById(id);
@@ -83,6 +99,7 @@ public class TopicosController
 	}
 	
 	@DeleteMapping("/{id}")
+	@CacheEvict(value="listaDeTopicos", allEntries = true)
 	public ResponseEntity<Void> remover(@PathVariable Long id)
 	{
 		Optional<Topico> optional = topicoRepository.findById(id);

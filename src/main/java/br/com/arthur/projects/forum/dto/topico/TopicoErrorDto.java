@@ -1,4 +1,4 @@
-package br.com.arthur.projects.forum.dto;
+package br.com.arthur.projects.forum.dto.topico;
 
 public class TopicoErrorDto
 {

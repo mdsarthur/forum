@@ -1,4 +1,4 @@
-package br.com.arthur.projects.forum.dto;
+package br.com.arthur.projects.forum.dto.topico;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;

@@ -1,9 +1,10 @@
-package br.com.arthur.projects.forum.dto;
+package br.com.arthur.projects.forum.dto.topico;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.arthur.projects.forum.dto.resposta.RespostaDto;
 import br.com.arthur.projects.forum.model.StatusTopico;
 import br.com.arthur.projects.forum.model.Topico;
 

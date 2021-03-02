@@ -1,4 +1,4 @@
-package br.com.arthur.projects.forum.dto;
+package br.com.arthur.projects.forum.dto.resposta;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
